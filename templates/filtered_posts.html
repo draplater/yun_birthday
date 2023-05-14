@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ user_name }} - 贴子搜索</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="mb-4">
+        <form action="/filtered_posts" method="get">
+        <div class="input-group mb-2">
+          <input type="text" class="form-control" name="user_name" placeholder="输入用户名开始搜索" required />
+          <button type="submit" class="btn btn-primary">搜索</button>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="thread_only" value="true" id="threadOnlyCheckbox" />
+          <label class="form-check-label" for="threadOnlyCheckbox">
+            只看主题贴
+          </label>
+        </div>
+      </form>
+      </div>
+
+      {% if posts %}
+      <h1 class="my-4"><a href="https://tieba.baidu.com{{ posts[0].author_link }}"> {{ user_name }} </a> 的贴子</h1>
+      
+      <!-- Cards for all screens -->
+      {% for post in posts %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title"><a target="_blank" href="/f?kz={{ post.thread_id }}">{{ post.title }}</a> {{post.post_no}} 楼</h5>
+          <p class="card-text">{{ post.content | safe }}</p>
+          <p class="card-text"><small class="text-muted">{{ post.date_time }}</small></p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </body>
+</html>
